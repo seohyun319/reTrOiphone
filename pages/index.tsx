@@ -6,10 +6,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Notch />
-      <main className={styles.main}>
-        <div>아이폰 잠금화면</div>
-        <div>아이폰 메인화면</div>
-      </main>
+      <main className={styles.main}>{/* <div>아이폰 잠금화면</div> */}</main>
     </div>
   );
 };
@@ -21,7 +18,7 @@ const Notch = tw.div`
   top-0
   left-0
   right-0
-  w-[60%]
+  w-[50%]
   max-w-[234px]
   h-[2.5rem]
   bg-black
