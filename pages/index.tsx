@@ -1,22 +1,31 @@
 import type { NextPage } from 'next';
 import styles from '../styles/Home.module.css';
-import styled from '@emotion/styled/macro';
 import tw from 'twin.macro';
-const Input = tw.input`
-    text-center border h-28
-`;
-const MyDiv = styled.div`
-  background: gold;
-  font-size: 5rem;
-  margin-top: 10px;
-`;
+
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
+      <Notch />
       <main className={styles.main}>
-        <div>안녕하세욧!</div>
+        <div>아이폰 잠금화면</div>
+        <div>아이폰 메인화면</div>
       </main>
     </div>
   );
 };
+
 export default Home;
+
+const Notch = tw.div`
+  absolute
+  top-0
+  left-0
+  right-0
+  w-[60%]
+  max-w-[234px]
+  h-[2.5rem]
+  bg-black
+  rounded-b-3xl
+  transform
+  mx-auto
+`;
