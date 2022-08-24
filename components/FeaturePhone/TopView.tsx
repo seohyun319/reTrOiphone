@@ -1,20 +1,20 @@
 import tw from 'twin.macro';
 
 // 피처폰 화면 부분
-export const UpperView = () => {
+export const TopView = () => {
   return (
     <>
-      <UpperCont>
+      <TopCont>
         <Speaker></Speaker>
         <div>T</div>
         <Screen></Screen>
         <div>sky</div>
-      </UpperCont>
+      </TopCont>
     </>
   );
 };
 
-const UpperCont = tw.div`
+const TopCont = tw.div`
   border-2 border-gray-200 rounded
   flex flex-col items-center
   min-w-[234px]
