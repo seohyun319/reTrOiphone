@@ -3,14 +3,12 @@ import tw from 'twin.macro';
 // 피처폰 화면 부분
 export const TopView = () => {
   return (
-    <>
-      <TopCont>
-        <Speaker></Speaker>
-        <div>T</div>
-        <Screen></Screen>
-        <div>sky</div>
-      </TopCont>
-    </>
+    <TopCont>
+      <Speaker />
+      <div>T</div>
+      <Screen />
+      <div>sky</div>
+    </TopCont>
   );
 };
 

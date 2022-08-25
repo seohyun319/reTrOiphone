@@ -3,41 +3,39 @@ import { FcCallback, FcEndCall } from 'react-icons/fc';
 
 export const BottomView = () => {
   return (
-    <>
-      <BottomCont>
-        <Row>
-          <Button>―</Button>
-          <NotButton></NotButton>
-          <Button>―</Button>
-        </Row>
-        <Row>
-          <NumberButton>
-            <FcCallback />
-          </NumberButton>
-          <CircleButton>
-            <CircleButton>nate</CircleButton>
-          </CircleButton>
-          <NumberButton>
-            <FcEndCall />
-          </NumberButton>
-        </Row>
-        <Row>
-          <NumberButton>1</NumberButton>
-          <Button>△</Button>
-          <NumberButton>3</NumberButton>
-        </Row>
-        <Row>
-          <Button>◁</Button>
-          <NumberButton>5</NumberButton>
-          <Button>▷</Button>
-        </Row>
-        <Row>
-          <NumberButton>7</NumberButton>
-          <Button>▽</Button>
-          <NumberButton>9</NumberButton>
-        </Row>
-      </BottomCont>
-    </>
+    <BottomCont>
+      <Row>
+        <Button>―</Button>
+        <NotButton />
+        <Button>―</Button>
+      </Row>
+      <Row>
+        <NumberButton>
+          <FcCallback />
+        </NumberButton>
+        <CircleButton>
+          <CircleButton>nate</CircleButton>
+        </CircleButton>
+        <NumberButton>
+          <FcEndCall />
+        </NumberButton>
+      </Row>
+      <Row>
+        <NumberButton>1</NumberButton>
+        <Button>△</Button>
+        <NumberButton>3</NumberButton>
+      </Row>
+      <Row>
+        <Button>◁</Button>
+        <NumberButton>5</NumberButton>
+        <Button>▷</Button>
+      </Row>
+      <Row>
+        <NumberButton>7</NumberButton>
+        <Button>▽</Button>
+        <NumberButton>9</NumberButton>
+      </Row>
+    </BottomCont>
   );
 };
 
