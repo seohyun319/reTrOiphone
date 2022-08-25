@@ -17,7 +17,7 @@ export const TopView = () => {
 const TopCont = tw.div`
   border-2 border-gray-200 rounded
   flex flex-col items-center
-  min-w-[234px]
+  h-[50vh]
 `;
 
 const Speaker = tw.div`
@@ -27,7 +27,7 @@ const Speaker = tw.div`
 
 const Screen = tw.div`
   border-2 border-gray-400 rounded-sm
-  w-11/12
-  min-w-[234px] min-h-[400px]
+  w-[90%]
+  h-full
   m-2 p-2
 `;
