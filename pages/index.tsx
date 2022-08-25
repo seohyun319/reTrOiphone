@@ -1,31 +1,29 @@
 import type { NextPage } from 'next';
 import styles from '../styles/Home.module.css';
+import Header from '../components/common/Header';
+import useSlideUpModal from '../hooks/common/useSlideModal';
+import { useRef } from 'react';
 import tw from 'twin.macro';
 
 const Home: NextPage = () => {
+  const backRef = useRef<HTMLDivElement>(null);
+  const SlideUpModal = useSlideUpModal(backRef);
+
   return (
     <div className={styles.container}>
-      <Notch />
-      <main className={styles.main}>
-        <div>아이폰 잠금화면</div>
-        <div>아이폰 메인화면</div>
-      </main>
+      <Header />
+      <TmpBack ref={backRef}>
+        <SlideUpModal.Render />
+        <main className={styles.main} onClick={() => SlideUpModal.open({})}>
+          슬라이드 업 모달 열기
+        </main>
+      </TmpBack>
     </div>
   );
 };
 
 export default Home;
 
-const Notch = tw.div`
-  absolute
-  top-0
-  left-0
-  right-0
-  w-[60%]
-  max-w-[234px]
-  h-[2.5rem]
-  bg-black
-  rounded-b-3xl
-  transform
-  mx-auto
+const TmpBack = tw.div`
+bg-blue-800
 `;
