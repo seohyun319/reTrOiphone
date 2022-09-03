@@ -22,8 +22,6 @@ const useSlideUpModal = (backRef?: RefObject<HTMLDivElement>) => {
   useEffect(() => {
     if (!modalRef.current) return;
     const $modal = modalRef.current;
-
-    addEventListener('touchstart', $modal);
   }, []);
 
   const open = ({ bodyNode, title = '팝업창' }: ModalRenderType) => {
