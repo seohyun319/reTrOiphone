@@ -2,10 +2,9 @@ import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import tw from 'twin.macro';
 import { ModalRenderType } from '../../types/props';
-import Text from '../../components/common/Text';
 import Spacer from '../../components/common/Spacer';
 import Image from 'next/image';
-import FaceID from '../../public/ios/face-id.gif';
+import { getDate, getTime } from '../../util/date';
 
 const PopUpDataInit: ModalRenderType = {
   bodyNode: 'hi',
@@ -62,16 +61,23 @@ const useSlideUpModal = (backRef?: RefObject<HTMLDivElement>) => {
 
   const Render = useCallback(() => {
     if (!isBrowser) return <Hidden />;
+    const { hour, minutes } = getTime();
+    const { month, day, date } = getDate();
+
     const ModalComponent = isItOpen ? (
       <Container ref={modalRef}>
         <Body>
           <Spacer height="1.5rem" />
           <Lock>
-            <Image src={'/ios/face-id.gif'} width="128px" height="128px" alt="hi" />
+            <Image src={'/ios/face-id.gif'} width="52px" height="42px" alt="faceid unlock" />
           </Lock>
           <Spacer height="1.5rem" />
-          <Clock>10:34</Clock>
-          <Day>9월 3일 토요일</Day>
+          <Clock>
+            {hour}:{minutes}
+          </Clock>
+          <Day>
+            {month + 1}월 {date}일 {day}
+          </Day>
           <SlideContainer ref={slideRef}>
             <SlideBar />
           </SlideContainer>
