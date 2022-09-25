@@ -18,9 +18,15 @@ const Header = () => {
   );
 };
 
+const ShadowBox = tw.div`
+  w-full
+  h-[2.5rem]
+`;
+
 const VirtualNotch = styled.div`
   width: 200px;
   height: 2.5rem;
+  z-index: 1000;
 `;
 
 const Notch = styled.div`
@@ -50,6 +56,8 @@ const Notch = styled.div`
 `;
 
 const Container = tw.div`
+  absolute
+  z-10
   flex
   justify-evenly
   top-0
@@ -60,7 +68,6 @@ const Container = tw.div`
   min-w-[300px]
   h-[2.5rem]
   items-center
-  px-1
 `;
 
 const Right = tw.div`
@@ -69,11 +76,13 @@ const Right = tw.div`
   flex
   flex-row
   gap-1
+  pr-3
 `;
 
 const Left = tw.div`
   text-center
   w-[20%]
+  text-sm
 `;
 
 export default Header;

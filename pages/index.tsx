@@ -1,29 +1,29 @@
 import type { NextPage } from 'next';
-import styles from '../styles/Home.module.css';
 import Header from '../components/common/Header';
 import useSlideUpModal from '../hooks/common/useSlideModal';
 import { useRef } from 'react';
-import tw from 'twin.macro';
+import styled from '@emotion/styled';
+import Dock from '../components/Home/Dock';
+import Apps from '../components/Home/Apps';
 
 const Home: NextPage = () => {
   const backRef = useRef<HTMLDivElement>(null);
   const SlideUpModal = useSlideUpModal(backRef);
 
   return (
-    <div className={styles.container}>
+    <BackgroundContainer>
+      {/* <SlideUpModal.Render /> */}
       <Header />
-      <TmpBack ref={backRef}>
-        <SlideUpModal.Render />
-        <main className={styles.main} onClick={() => SlideUpModal.open({})}>
-          슬라이드 업 모달 열기
-        </main>
-      </TmpBack>
-    </div>
+      <Apps />
+      <Dock />
+    </BackgroundContainer>
   );
 };
 
 export default Home;
 
-const TmpBack = tw.div`
-bg-blue-800
+const BackgroundContainer = styled.div`
+  height: 100vh;
+  background: url('/ios/backgound.jpeg');
+  background-size: cover;
 `;

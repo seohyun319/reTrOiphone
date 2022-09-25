@@ -2,7 +2,9 @@ import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import tw from 'twin.macro';
 import { ModalRenderType } from '../../types/props';
-import Text from '../../components/common/Text';
+import Spacer from '../../components/common/Spacer';
+import Image from 'next/image';
+import { getDate, getTime } from '../../util/date';
 
 const PopUpDataInit: ModalRenderType = {
   bodyNode: 'hi',
@@ -10,71 +12,76 @@ const PopUpDataInit: ModalRenderType = {
 };
 
 const useSlideUpModal = (backRef?: RefObject<HTMLDivElement>) => {
-  const [isItOpen, setIsItOpen] = useState<boolean>(false);
+  const [isItOpen, setIsItOpen] = useState<boolean>(true);
   const [isBrowser, setIsBrowser] = useState<boolean>(false);
   const [popUpData, setPopUpData] = useState<ModalRenderType>(PopUpDataInit);
   const modalRef = useRef<HTMLDivElement>(null);
+  const slideRef = useRef<HTMLDivElement>(null);
+
+  const onMoveSlide = (e: TouchEvent) => {
+    if (!modalRef.current) return;
+    const $modal = modalRef.current;
+    const scrollBarLoc = e.targetTouches[0].clientY - window.screen.height;
+    if (scrollBarLoc > 0) return;
+    $modal.style.transform = `translate3D(0px, ${scrollBarLoc}px, 0)`;
+  };
 
   useEffect(() => {
     setIsBrowser(true);
   }, []);
 
   useEffect(() => {
-    if (!modalRef.current) return;
-    const $modal = modalRef.current;
+    console.log('fail');
+    if (!slideRef.current) {
+      close();
+      return;
+    }
+    console.log('ok');
+    const $slide = slideRef.current;
+    $slide.addEventListener('touchmove', onMoveSlide);
 
-    addEventListener('touchstart', $modal);
+    return () => {
+      $slide.removeEventListener('touchmove', onMoveSlide);
+    };
   }, []);
 
-  const open = ({ bodyNode, title = '팝업창' }: ModalRenderType) => {
-    setIsItOpen(true);
-    setPopUpData({ ...PopUpDataInit, bodyNode, title });
-
-    if (backRef?.current) {
-      const $backRef = backRef.current;
-      $backRef.style.transform = 'scale(0.95)';
-      $backRef.style.transition = 'all 0.35s linear';
-      $backRef.style.borderRadius = '1rem';
-      $backRef.style.opacity = '0.8';
-    }
-
-    setTimeout(() => {
-      if (!modalRef.current) return;
-      const $modal = modalRef.current;
-      $modal.style.transform = `translate3D(0px, 0px, 0px)`;
-    }, 0);
+  const open = () => {
+    if (!modalRef.current) return;
+    const $modal = modalRef.current;
+    $modal.style.transition = 'all 0.3s linear';
+    $modal.style.transform = `translate3D(0px, -100%, 0px)`;
   };
 
   const close = useCallback(() => {
     if (!modalRef.current) return;
     const $modal = modalRef.current;
-    $modal.style.transform = `translate3D(0px, 200%, 0px)`;
-
-    if (backRef?.current) {
-      const $backRef = backRef.current;
-      $backRef.style.transform = '';
-      $backRef.style.transition = 'all 0.35s linear';
-      $backRef.style.borderRadius = '';
-      $backRef.style.opacity = '';
-    }
-
-    setTimeout(() => {
-      setIsItOpen(false);
-    }, 300);
-  }, [backRef]);
+    $modal.style.transition = 'all 0.3s linear';
+    $modal.style.transform = `translate3D(0px, 0px, 0px)`;
+  }, [modalRef]);
 
   const Render = useCallback(() => {
     if (!isBrowser) return <Hidden />;
+    const { hour, minutes } = getTime();
+    const { month, day, date } = getDate();
+
     const ModalComponent = isItOpen ? (
       <Container ref={modalRef}>
-        <Header>
-          <HeaderLeft>___</HeaderLeft>
-          <HeaderCenter>{popUpData.title}</HeaderCenter>
-          <HeaderRight>
-            <Text onClick={close}>Done</Text>
-          </HeaderRight>
-        </Header>
-        <Body>{popUpData.bodyNode}</Body>
+        <Body>
+          <Spacer height="1.5rem" />
+          <Lock>
+            <Image src={'/ios/face-id.gif'} width="52px" height="42px" alt="faceid unlock" />
+          </Lock>
+          <Spacer height="1.5rem" />
+          <Clock>
+            {hour}:{minutes}
+          </Clock>
+          <Day>
+            {month + 1}월 {date}일 {day}
+          </Day>
+          <SlideContainer ref={slideRef}>
+            <SlideBar />
+          </SlideContainer>
+        </Body>
       </Container>
     ) : null;
 
@@ -83,66 +90,73 @@ const useSlideUpModal = (backRef?: RefObject<HTMLDivElement>) => {
       // @ts-ignore
       document.getElementById('slide-up-modal'),
     );
-  }, [isBrowser, isItOpen, popUpData, close]);
+  }, [isBrowser, isItOpen]);
 
-  return { open, close, Render };
+  return { Render };
 };
 
 export default useSlideUpModal;
 
 const Container = tw.div`
   absolute
-  top-16
+  min-w-[300px]
+  top-0
   left-0
   right-0
   bottom-0
-  // h-[400px]
-  w-[400px]
+  w-full
   m-auto
   overflow-hidden
   rounded-lg
   transform-gpu
-  translate-y-[200%]
-  transition-all
-  duration-300
   shadow-lg
-  border
+  bg-white
+  pt-10
+  bg-ios-background
+  bg-cover
 `;
 
-const Header = tw.div`
-  flex
-  justify-between
-  bg-gray-100
-  h-[2.5rem]
-  items-center
-  border-b
-  px-5
+const SlideContainer = tw.div`
+  w-40
+  h-16
+  bottom-3
+  right-0
+  left-0
+  m-auto
+  z-10
+  absolute
 `;
 
-const HeaderLeft = tw.div`
-  invisible
-  w-2/3
-  text-left
-`;
-
-const HeaderCenter = tw.div`
-  w-2/3
-  text-center
-`;
-
-const HeaderRight = tw.div`
-  text-blue-500
-  w-2/3
-  text-right
-  cursor-pointer
+const SlideBar = tw.div`
+  absolute
+  bottom-0
+  w-40
+  h-2
+  rounded-md
+  bg-black
 `;
 
 const Body = tw.div`
-  h-full
-  bg-gray-100
-  p-3
+
 `;
 
 const Hidden = tw.div`
   hidden
+`;
+
+const Clock = tw.div`
+  text-white
+  text-6xl
+  text-center
+`;
+
+const Day = tw.div`
+  text-white
+  text-xl
+  text-center
+`;
+
+const Lock = tw.div`
+  flex
+  justify-center
 `;
