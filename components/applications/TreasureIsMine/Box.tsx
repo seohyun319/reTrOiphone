@@ -1,5 +1,6 @@
 import React from 'react';
 import tw from 'twin.macro';
+import styled from '@emotion/styled';
 import { useAppDispatch, useAppSelector } from '../../../hooks/common/useRedux';
 import { getTreasureIsMine, openBox } from '../../../_reducers/applications/treasureIsMineReducer';
 
@@ -11,7 +12,6 @@ export const Box = ({ rowIdx, colIdx }: { rowIdx: number; colIdx: number }) => {
   const isBomb = game.bombContainer[rowIdx][colIdx];
   const [count, setCount] = React.useState(0); // 주변 폭탄 개수
   const bombView = isBomb ? <>💣</> : <>{count}</>;
-
   // 주변에 폭탄이 몇 개 있는지
   const aroundBombNum = () => {
     // 주변 방향 좌표
@@ -50,16 +50,17 @@ export const Box = ({ rowIdx, colIdx }: { rowIdx: number; colIdx: number }) => {
   };
 
   return (
-    <BoxButton key="btn" onClick={clickBox}>
+    <BoxButton key="btn" onClick={clickBox} isOpen={isOpen} isBomb={isBomb}>
       {!isOpen ? <>?</> : bombView}
     </BoxButton>
   );
 };
 
-const BoxButton = tw.div`
-  bg-gray-200 
-  w-[2rem] h-[2rem]  
+const BoxButton = styled.div(({ isOpen, isBomb }: { isOpen: number; isBomb?: number }) => [
+  tw`
+  w-[2rem] h-[2rem]
   m-1
-  flex items-center justify-center
-  cursor-pointer
-`;
+  flex items-center justify-center    
+  `,
+  isOpen ? [tw`bg-red-50 text-blue-500 font-bold`, isBomb && tw`bg-red-500`] : tw`bg-gray-200 cursor-pointer`,
+]);
