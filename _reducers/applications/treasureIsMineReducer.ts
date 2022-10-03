@@ -4,7 +4,7 @@ import { RootState } from '../store';
 export interface TreasureIsMineState {
   numX: number;
   numY: number;
-  numBomb: number;
+  bombNum: number;
   bombContainer: Array<Array<number>>;
   isOpen: Array<Array<number>>;
 }
@@ -12,7 +12,7 @@ export interface TreasureIsMineState {
 const initialState: TreasureIsMineState = {
   numX: 5,
   numY: 5,
-  numBomb: 3,
+  bombNum: 3,
   bombContainer: [],
   isOpen: [],
 };
@@ -25,6 +25,10 @@ export const TreasureIsMineSlice = createSlice({
       state.bombContainer = action.payload.bombContainer;
       state.isOpen = action.payload.isOpen;
     },
+    selectMode: (state, action) => {
+      state.numX = action.payload.numX;
+      state.numY = action.payload.numY;
+    },
     openBox: (state, action) => {
       const rowIdx = action.payload.rowIdx;
       const colIdx = action.payload.colIdx;
@@ -33,7 +37,7 @@ export const TreasureIsMineSlice = createSlice({
   },
 });
 
-export const { startGame, openBox } = TreasureIsMineSlice.actions;
+export const { startGame, selectMode, openBox } = TreasureIsMineSlice.actions;
 
 export const getTreasureIsMine = (state: RootState) => state.treasureIsMine;
 
