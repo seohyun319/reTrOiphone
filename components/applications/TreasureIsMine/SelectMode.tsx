@@ -1,6 +1,6 @@
 import tw from 'twin.macro';
 import { useAppDispatch, useAppSelector } from '../../../hooks/common/useRedux';
-import { getTreasureIsMine, startGame } from '../../../_reducers/applications/treasureIsMineReducer';
+import { getTreasureIsMine, selectMode, startGame } from '../../../_reducers/applications/treasureIsMineReducer';
 
 export const SelectMode = () => {
   const game = useAppSelector(getTreasureIsMine);
@@ -21,11 +21,38 @@ export const SelectMode = () => {
   };
   renderGrid();
 
-  return <StartGame onClick={() => dispatch(startGame({ bombContainer: BombContainer, isOpen: isOpen }))}>게임 시작</StartGame>;
+  const onClickModeButton = (numX: number, numY: number) => {
+    dispatch(selectMode({ numX: numX, numY: numY }));
+  };
+
+  return (
+    <>
+      <div>난이도 선택</div>
+      <button
+        onClick={() => {
+          onClickModeButton(6, 6);
+        }}>
+        초급
+      </button>
+      <button
+        onClick={() => {
+          onClickModeButton(10, 10);
+        }}>
+        중급
+      </button>
+      <button
+        onClick={() => {
+          onClickModeButton(15, 15);
+        }}>
+        고급
+      </button>
+      <StartGame onClick={() => dispatch(startGame({ bombContainer: BombContainer, isOpen: isOpen }))}>게임 시작</StartGame>
+    </>
+  );
 };
 
 const StartGame = tw.div`
-  bg-blue-300
+  bg-blue-200 hover:bg-blue-300 active:bg-purple-300
   p-2 w-max
   rounded-lg
   cursor-pointer
