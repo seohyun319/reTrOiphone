@@ -28,24 +28,24 @@ export const SelectMode = () => {
   return (
     <>
       <div>난이도 선택</div>
-      <button
+      <ModeButton
         onClick={() => {
           onClickModeButton(6, 6);
         }}>
         초급
-      </button>
-      <button
+      </ModeButton>
+      <ModeButton
         onClick={() => {
           onClickModeButton(10, 10);
         }}>
         중급
-      </button>
-      <button
+      </ModeButton>
+      <ModeButton
         onClick={() => {
           onClickModeButton(15, 15);
         }}>
         고급
-      </button>
+      </ModeButton>
       <StartGame onClick={() => dispatch(startGame({ bombContainer: BombContainer, isOpen: isOpen }))}>게임 시작</StartGame>
     </>
   );
@@ -56,4 +56,11 @@ const StartGame = tw.div`
   p-2 w-max
   rounded-lg
   cursor-pointer
+`;
+
+const ModeButton = tw.button`
+  bg-pink-200
+  focus:bg-pink-300
+  cursor-pointer
+  mx-1 p-0.5 rounded-sm
 `;
