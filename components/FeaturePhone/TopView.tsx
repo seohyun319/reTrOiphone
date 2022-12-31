@@ -1,4 +1,6 @@
 import tw from 'twin.macro';
+import { Board } from '../applications/TreasureIsMine/Board';
+import { SelectMode } from '../applications/TreasureIsMine/SelectMode';
 
 // 피처폰 화면 부분
 export const TopView = () => {
@@ -6,7 +8,10 @@ export const TopView = () => {
     <TopCont>
       <Speaker />
       <div>T</div>
-      <Screen />
+      <Screen>
+        <SelectMode />
+        <Board />
+      </Screen>
       <div>sky</div>
     </TopCont>
   );
@@ -27,5 +32,5 @@ const Screen = tw.div`
   border-2 border-gray-400 rounded-sm
   w-[90%]
   h-full
-  m-2 p-2
+  m-2
 `;
